@@ -1,49 +1,40 @@
-import React, {Component} from "react";
-import {BackHandler} from "react-native";
-import {connect} from "react-redux";
-import {addNavigationHelpers, NavigationActions} from "react-navigation";
-import NavigationStack from "./navigationStack";
-import {StackNavigator} from 'react-navigation';
-import MainTabNavigator from './MainTabNavigator';
+import React from 'react';
+import {Platform, Text, View, StatusBar} from 'react-native';
+//import { Ionicons } from '@expo/vector-icons';
+import {TabNavigator, TabBarBottom} from 'react-navigation';
+import {DrawerNavigator} from 'react-navigation';
+//import Colors from '../constants/Colorss';
+import Colors from "../Constants/Colors"
+import HomeScreen from '../Screens/HomeScreen';
+import LinksScreen from '../Screens/LinksScreen';
+import SettingsScreen from '../Screens/SettingsScreen';
 
-const RootStackNavigator = StackNavigator({
-  Main: {
-    screen: MainTabNavigator
-  }
-}, {
-  navigationOptions: () => ({
-    headerTitleStyle: {
-      fontWeight: 'normal'
+export default DrawerNavigator({
+    Today: {
+        screen: HomeScreen
+    },
+    Upcoming: {
+        screen: LinksScreen
+    },
+    Someday: {
+        screen: SettingsScreen
     }
-  })
 });
 
-export default class AppNavigation extends Component {
-  componentDidMount() {
-    BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
-  }
-
-  componentWillUnmount() {
-    BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
-  }
-
-  onBackPress = () => {
-    const {dispatch, navigationState} = this.props;
-    if (navigationState.stateForLoggedIn.index <= 1) {
-      BackHandler.exitApp();
-      return;
-    }
-    dispatch(NavigationActions.back());
-    return true;
-  };
-
-  render() {
-    // const { navigationState, dispatch, isLoggedIn } = this.props; const state =
-    // isLoggedIn ?     navigationState.stateForLoggedIn :
-    // navigationState.stateForLoggedOut;
-    return <RootStackNavigator/>;
-  }
-}
-const mapStateToProps = state => {
-  return {isLoggedIn: state.LoginReducer.isLoggedIn, navigationState: state.NavigationReducer};
-}
+// export default TabNavigator({     Home: {         screen: HomeScreen,
+// navigationOptions: {             tabBarLabel: '笑话'         }     }, Links: {
+// screen: LinksScreen     },     Settings: {         screen: SettingsScreen  }
+// }, {     navigationOptions: ({navigation}) => ({ tabBarIcon: ({focused}) =>
+// {             const {routeName} = navigation.state;  let iconName; switch
+// (routeName) {             case 'Home':                iconName = "Home"   //
+// iconName = Platform.OS === 'ios' ? `ios-information-circle${focused ? '' //
+// : '-outline'}` : 'md-information-circle';       break; case 'Links': iconName
+// = "Links" // iconName = Platform.OS === 'ios' ? `ios-link${focused ? '' :
+// '-outline'}` // : 'md-link';   break;    case 'Settings': iconName =
+// "Settings" // iconName = Platform.OS === 'ios' ? `ios-options${focused ? '' :
+//         // '-outline'}` : 'md-options';             }    return (     <Text>
+// {iconName} </Text>             );         }     }), tabBarOptions: {
+// showLabel: false,     style: { backgroundColor: Colors.gray4, borderTopColor:
+// "transparent",     height: 50         }   }, tabBarComponent: TabBarBottom,
+// tabBarPosition: 'bottom', animationEnabled: false,     swipeEnabled: false
+// });

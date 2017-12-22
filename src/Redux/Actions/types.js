@@ -1,10 +1,10 @@
 'use strict';
 
 // for user
-export const LOGGED_IN 	= 'LOGGED_IN';
+export const LOGGED_IN = 'LOGGED_IN';
 export const LOGGED_OUT = 'LOGGED_OUT';
 export const LOGGED_ERROR = 'LOGGED_ERROR';
-export const LOGGED_DOING = 'LOGGED_DOING';
+export const TOGGOLE_TODAY = 'TOGGOLE_TODAY';
 
 // for item
 

@@ -39,10 +39,22 @@ class CardItem extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={[styles.days]}>{this.props.cards[this.props.uuid].days}</Text>
-                <Text style={[styles.content]}>{this.props.cards[this.props.uuid].content}</Text>
+                <Text
+                    style={[
+                    styles.days,
+                    this.props.cards[this.props.uuid].today == 0
+                        ? {}
+                        : {
+                            color: "#333"
+                        }
+                ]}>{this.props.cards[this.props.uuid].days}</Text>
+                <View style={[styles.content]}>
+                    <Text style={[styles.contentTitle]}>{this.props.cards[this.props.uuid].content}</Text>
+                    <Text style={[styles.contentDetail]}>{this.props.cards[this.props.uuid].content}</Text>
+                </View>
+
                 {this._renderHistory(this.props.cards[this.props.uuid].history)}
-                <Today style={[styles.today]} uuid={this.props.cards[this.props.uuid].uuid}/>
+                <Today uuid={this.props.cards[this.props.uuid].uuid}/>
             </View>
         )
     }
@@ -51,16 +63,19 @@ const mapStateToProps = (store) => ({cards: store.CardReducer});
 const mapDispatchToProps = ({});
 export default connect(mapStateToProps, mapDispatchToProps)(CardItem);
 
-const styles = StyleSheet.create({
+const center = {
+    alignItems: "center",
+    justifyContent: "center"
+}
 
+const styles = StyleSheet.create({
     container: {
-        backgroundColor: Color.white,
+        backgroundColor: "#4961AE",
         height: 60,
         marginVertical: 10,
-        marginHorizontal: 20,
         flexDirection: "row",
         alignItems: "center",
-        borderRadius: 5,
+        justifyContent: "space-between",
         ...Platform.select({
             ios: {
                 shadowColor: 'black',
@@ -81,9 +96,34 @@ const styles = StyleSheet.create({
 
     },
     days: {
-        color: Colors.gray2,
-        fontSize: 20,
+        color: Colors.white,
+        fontSize: 30,
         width: 60,
         textAlign: "center"
+    },
+    today: {
+        ...center,
+        width: 60,
+        backgroundColor: "#607BBD",
+        height: 60
+    },
+    history: {
+        width: 20,
+        alignItems: "center",
+        justifyContent: "center",
+        color: "white"
+
+    },
+    content: {
+        flex: 1
+    },
+    contentTitle: {
+        fontSize: 16,
+        color: "white"
+    },
+    contentDetail: {
+        fontSize: 12,
+        marginTop: 5,
+        color: "#A0AED5"
     }
 })
