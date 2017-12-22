@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
-import { login } from "../Actions/actionCreator";
+import { login } from "../Redux/Actions/actionCreator";
 
 class LoginScreen extends Component {
   static navigationOptions = {

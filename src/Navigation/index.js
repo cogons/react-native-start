@@ -1,10 +1,24 @@
-import React, { Component } from "react";
-import { BackHandler } from "react-native";
-import { connect } from "react-redux";
-import { addNavigationHelpers, NavigationActions } from "react-navigation";
+import React, {Component} from "react";
+import {BackHandler} from "react-native";
+import {connect} from "react-redux";
+import {addNavigationHelpers, NavigationActions} from "react-navigation";
 import NavigationStack from "./navigationStack";
+import {StackNavigator} from 'react-navigation';
+import MainTabNavigator from './MainTabNavigator';
 
-class AppNavigation extends Component {
+const RootStackNavigator = StackNavigator({
+  Main: {
+    screen: MainTabNavigator
+  }
+}, {
+  navigationOptions: () => ({
+    headerTitleStyle: {
+      fontWeight: 'normal'
+    }
+  })
+});
+
+export default class AppNavigation extends Component {
   componentDidMount() {
     BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
   }
@@ -14,7 +28,7 @@ class AppNavigation extends Component {
   }
 
   onBackPress = () => {
-    const { dispatch, navigationState } = this.props;
+    const {dispatch, navigationState} = this.props;
     if (navigationState.stateForLoggedIn.index <= 1) {
       BackHandler.exitApp();
       return;
@@ -24,21 +38,12 @@ class AppNavigation extends Component {
   };
 
   render() {
-    const { navigationState, dispatch, isLoggedIn } = this.props;
-    const state = isLoggedIn
-      ? navigationState.stateForLoggedIn
-      : navigationState.stateForLoggedOut;
-    return (
-      <NavigationStack navigation={addNavigationHelpers({ dispatch, state })} />
-    );
+    // const { navigationState, dispatch, isLoggedIn } = this.props; const state =
+    // isLoggedIn ?     navigationState.stateForLoggedIn :
+    // navigationState.stateForLoggedOut;
+    return <RootStackNavigator/>;
   }
 }
-
 const mapStateToProps = state => {
-  return {
-    isLoggedIn: state.LoginReducer.isLoggedIn,
-    navigationState: state.NavigationReducer
-  };
-};
-
-export default connect(mapStateToProps)(AppNavigation);
+  return {isLoggedIn: state.LoginReducer.isLoggedIn, navigationState: state.NavigationReducer};
+}
