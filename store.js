@@ -1,23 +1,23 @@
 import {createStore, combineReducers, applyMiddleware} from "redux";
 import {persistCombineReducers, persistStore, persistReducer} from "redux-persist";
-import storage from "redux-persist/es/storage";
+import storage from "redux-persist/lib/storage";
+//import FilesystemStorage from 'redux-persist-filesystem-storage'
 import thunk from 'redux-thunk';
 import counterReducer from "./src/Redux/Reducers/counterReducer";
 import cardReducer from "./src/Redux/Reducers/cardReducer";
 import NavigationReducer from "./src/Redux/Reducers/navigationReducer";
 import loginReducer from "./src/Redux/Reducers/loginReducer";
+storage.clear();
 
-// config to not persist the *counterString* of the CounterReducer's slice of
-// the global state.
 const config = {
     key: "root",
-    storage,
+    storage: storage,
     blacklist: ["counterString"]
 };
 
 const config1 = {
     key: "primary",
-    storage
+    storage: storage
 };
 
 const logger = store => next => action => {

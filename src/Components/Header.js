@@ -17,6 +17,8 @@ import {
 } from 'react-native';
 import Colors from "../Constants/Colors"
 import {connect} from "react-redux";
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 class Header extends React.Component {
 
     constructor(props) {
@@ -38,14 +40,24 @@ class Header extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => this.props.navigation.navigate('DrawerOpen')}>
-                    <Text style={styles.buttonText}>*</Text>
+                <TouchableOpacity style={styles.button} onPress={this.props.leftAction}>
+                    <Icon
+                        name={this.props.leftIcon}
+                        style={{
+                        backgroundColor: "transparent"
+                    }}
+                        color="#FFF"
+                        size={20}/>
                 </TouchableOpacity>
 
-                <TouchableOpacity>
-                    <Text style={styles.buttonText}>+</Text>
+                <TouchableOpacity style={styles.button} onPress={this.props.rightAction}>
+                    <Icon
+                        name={this.props.rightIcon}
+                        style={{
+                        backgroundColor: "transparent"
+                    }}
+                        color="#FFF"
+                        size={20}/>
                 </TouchableOpacity>
 
             </View>
@@ -60,7 +72,7 @@ const styles = StyleSheet.create({
 
     container: {
         position: "absolute",
-        height: 70,
+        height: 80,
         width: "100%",
         top: 10,
         paddingHorizontal: 20,
@@ -71,7 +83,8 @@ const styles = StyleSheet.create({
     button: {},
     buttonText: {
         fontSize: 30,
-        color: "white"
+        color: "white",
+        backgroundColor: "transparent"
     },
     days: {
         color: Colors.gray2,

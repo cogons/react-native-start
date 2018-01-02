@@ -18,6 +18,8 @@ import {
 import Colors from "../../Constants/Colors"
 import Today from "./TodayBtn"
 import {connect} from "react-redux";
+import StateIcon from './StateIcon'
+
 class CardItem extends React.Component {
 
     constructor(props) {
@@ -30,32 +32,48 @@ class CardItem extends React.Component {
 
     _renderHistory(arr) {
 
-        return arr.map((item, i) => {
-            return <Text key={i} style={[styles.history]}>{item}</Text>
-        })
+        return arr
+            .split("")
+            .slice(-3)
+            .map((item, i) => {
+                return <StateIcon
+                    styles={{
+                    width: 24
+                }}
+                    key={i}
+                    state={item}
+                    size={15}
+                    from="history"/>
+                // <Text key={i} style={[styles.history]}>{item}</Text>
+            })
 
     }
 
     render() {
         return (
-            <View style={styles.container}>
+            <TouchableOpacity
+                style={styles.container}
+                onPress={() => this.props.navigation.navigate('Detail', {uuid: this.props.uuid})}>
                 <Text
                     style={[
                     styles.days,
-                    this.props.cards[this.props.uuid].today == 0
-                        ? {}
-                        : {
-                            color: "#333"
+                    this.props.cards[this.props.uuid].today == 5
+                        ? {
+                            color: "#95A4D2"
                         }
-                ]}>{this.props.cards[this.props.uuid].days}</Text>
+                        : {}
+                ]}>{this.props.cards[this.props.uuid].today == 5
+                        ? this.props.cards[this.props.uuid].history.length - 3
+                        : this.props.cards[this.props.uuid].history.length - 3 + 1}</Text>
                 <View style={[styles.content]}>
-                    <Text style={[styles.contentTitle]}>{this.props.cards[this.props.uuid].content}</Text>
-                    <Text style={[styles.contentDetail]}>{this.props.cards[this.props.uuid].content}</Text>
-                </View>
+                    <Text style={[styles.contentTitle]}>{this.props.cards[this.props.uuid].title}</Text>
+                    {this.props.cards[this.props.uuid].description
+                        ? <Text style={[styles.contentDetail]}>{this.props.cards[this.props.uuid].description}</Text>
+                        : null}</View>
 
                 {this._renderHistory(this.props.cards[this.props.uuid].history)}
                 <Today uuid={this.props.cards[this.props.uuid].uuid}/>
-            </View>
+            </TouchableOpacity>
         )
     }
 }
@@ -112,14 +130,14 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         color: "white"
-
     },
     content: {
         flex: 1
     },
     contentTitle: {
         fontSize: 16,
-        color: "white"
+        color: "white",
+        fontWeight: "bold"
     },
     contentDetail: {
         fontSize: 12,

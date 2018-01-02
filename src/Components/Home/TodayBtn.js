@@ -18,7 +18,9 @@ import {
 import Colors from "../../Constants/Colors"
 import Styles from "../../Constants/Styles"
 import {connect} from "react-redux";
-import {toggoleToday} from "../../Redux/Actions/card"
+import {ToggoleToday} from "../../Redux/Actions/CardAction"
+import Icon from 'react-native-vector-icons/FontAwesome';
+import StateIcon from './StateIcon'
 
 class Today extends React.Component {
 
@@ -41,20 +43,20 @@ class Today extends React.Component {
         return (
             <TouchableOpacity
                 onPress={() => {
-                console.log(this.props.toggoleToday(this.props.uuid))
+                console.log(this.props.ToggoleToday(this.props.uuid))
             }}
                 style={[
                 styles.container,
-                this.props.cards[this.props.uuid].today !== 0
-                    ? {
+                this.props.cards[this.props.uuid].today == 5
+                    ? {}
+                    : {
                         backgroundColor: "white"
                     }
-                    : {}
             ]}>
-                <Text
-                    style={this.props.cards[this.props.uuid].today !== 0
-                    ? styles.textChecked
-                    : styles.text}>{this.props.cards[this.props.uuid].today}</Text>
+                <StateIcon
+                    state={this.props.cards[this.props.uuid].today}
+                    size={30}
+                    from="today"/>
             </TouchableOpacity>
         )
     }
@@ -62,7 +64,7 @@ class Today extends React.Component {
 }
 
 const mapStateToProps = (store) => ({cards: store.CardReducer});
-const mapDispatchToProps = ({toggoleToday});
+const mapDispatchToProps = ({ToggoleToday});
 export default connect(mapStateToProps, mapDispatchToProps)(Today);
 
 const styles = StyleSheet.create({
@@ -80,7 +82,7 @@ const styles = StyleSheet.create({
     },
     text: {
 
-        color: "#6E8CC5",
+        color: "#95A4D2",
         fontSize: 30
 
     },
